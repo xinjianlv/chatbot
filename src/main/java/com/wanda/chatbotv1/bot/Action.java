@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wanda.chatbotv1.extractor.AbstractAnswerExtractor;
-import com.wanda.chatbotv1.extractor.ChainProcess;
+import com.wanda.chatbotv1.extractor.ChainAnswerProcess;
 import com.wanda.chatbotv1.pojo.Answer;
 import com.wanda.chatbotv1.process.IndexProcess;
 import com.wanda.chatbotv1.process.InternetProcess;
@@ -35,7 +35,7 @@ public class Action {
 		try {
 			Set<String> nodes = FileTool.LoadDictKeysFromFile("./spam.dic", 0, Charset.forName("utf-8"));
 			dic = new TrieTree(nodes, false);
-			process = ChainProcess.getChainOfProcess();
+			process = ChainAnswerProcess.getChainOfProcess();
 		} catch (Exception e) {
 			log.error(" ", e);
 			System.exit(-1);

@@ -1,6 +1,6 @@
 package com.wanda.chatbotv1.extractor;
 
-public class ChainProcess {
+public class ChainAnswerProcess {
 	public static AbstractAnswerExtractor getChainOfProcess() {
 
 		AbstractAnswerExtractor pattern = new PatternAnswerExtractor(1);

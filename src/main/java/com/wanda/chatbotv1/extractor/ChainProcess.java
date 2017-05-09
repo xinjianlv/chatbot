@@ -1,4 +1,4 @@
-package com.wanda.chatbotv1.process;
+package com.wanda.chatbotv1.extractor;
 
 public class ChainProcess {
 	public static AbstractAnswerExtractor getChainOfProcess() {

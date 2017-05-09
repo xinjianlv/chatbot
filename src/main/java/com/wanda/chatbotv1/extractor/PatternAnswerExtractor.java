@@ -1,9 +1,9 @@
-package com.wanda.chatbotv1.process;
+package com.wanda.chatbotv1.extractor;
 
 import org.apache.log4j.Logger;
 
-import com.wanda.chatbotv1.answer.PatternProcess;
 import com.wanda.chatbotv1.pojo.Answer;
+import com.wanda.chatbotv1.process.PatternProcess;
 
 public class PatternAnswerExtractor extends AbstractAnswerExtractor{
 	Logger log = Logger.getLogger(PatternAnswerExtractor.class);

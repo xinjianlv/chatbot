@@ -11,12 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wanda.chatbotv1.answer.IndexProcess;
-import com.wanda.chatbotv1.answer.InternetProcess;
-import com.wanda.chatbotv1.answer.PatternProcess;
+import com.wanda.chatbotv1.extractor.AbstractAnswerExtractor;
+import com.wanda.chatbotv1.extractor.ChainProcess;
 import com.wanda.chatbotv1.pojo.Answer;
-import com.wanda.chatbotv1.process.AbstractAnswerExtractor;
-import com.wanda.chatbotv1.process.ChainProcess;
+import com.wanda.chatbotv1.process.IndexProcess;
+import com.wanda.chatbotv1.process.InternetProcess;
+import com.wanda.chatbotv1.process.PatternProcess;
 import com.wanda.chatbotv1.utils.FileTool;
 import com.wanda.chatbotv1.utils.Filters;
 import com.wanda.chatbotv1.utils.TrieTree;

@@ -1,4 +1,4 @@
-package com.wanda.chatbotv1.process;
+package com.wanda.chatbotv1.extractor;
 
 import com.wanda.chatbotv1.pojo.Answer;
 

@@ -18,8 +18,8 @@ import com.wanda.chatbotv1.utils.StrUtils;
 
 
 
-public class PatternAnswer extends TimerTask{
-	private Logger log = Logger.getLogger(PatternAnswer.class);
+public class PatternProcess extends TimerTask{
+	private Logger log = Logger.getLogger(PatternProcess.class);
 	private static HashMap<String , Integer> questionIndesx = null;
 	private static HashMap<Integer ,AnswerList> answer = null;
 	public void loadPattern(){
@@ -48,7 +48,7 @@ public class PatternAnswer extends TimerTask{
 	}
 	public void reLoadPattern(){
 		long per = 1000 * 60 * 10;
-		new Timer().schedule(new PatternAnswer(), 1 , per);
+		new Timer().schedule(new PatternProcess(), 1 , per);
 	}
 	private HashMap<String , Integer> getQuestionMap(String [][] matrix){
 		HashMap<String , Integer> question = new HashMap<String , Integer>();
@@ -91,7 +91,7 @@ public class PatternAnswer extends TimerTask{
 	}
 	
 	public static void main(String[] args) {
-		PatternAnswer pattern = new PatternAnswer();
+		PatternProcess pattern = new PatternProcess();
 		String an = pattern.getAnswer("test");
 		System.out.println(an);
 	}

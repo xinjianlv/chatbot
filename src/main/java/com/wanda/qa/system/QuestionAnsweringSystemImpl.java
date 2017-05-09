@@ -50,8 +50,6 @@ import com.wanda.qa.score.evidence.SkipBigramEvidenceScore;
 import com.wanda.qa.score.evidence.TermMatchEvidenceScore;
 import com.wanda.qa.select.CandidateAnswerSelect;
 import com.wanda.qa.select.CommonCandidateAnswerSelect;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 
 /**
  * 使用此问答系统实现要指定4个组件： 1、问答系统使用的数据源(不可以同时使用多个数据源) 2、候选答案提取器(不可以同时使用多个提取器)
@@ -61,7 +59,7 @@ import com.wanda.qa.select.CommonCandidateAnswerSelect;
  */
 public class QuestionAnsweringSystemImpl implements QuestionAnsweringSystem {
 
-    private static final Logger LOG = Logger.getLogger(QuestionAnsweringSystemImpl.class);
+    private static final Logger log = Logger.getLogger(QuestionAnsweringSystemImpl.class);
 
     private int questionIndex = 1;
     private double mrr;
@@ -182,27 +180,26 @@ public class QuestionAnsweringSystemImpl implements QuestionAnsweringSystem {
     public List<Question> answerQuestions(List<Question> questions) {
         for (Question question : questions) {
             question = questionClassifier.classify(question);
-            LOG.info("开始处理Question " + (questionIndex++) + "：" + question.getQuestion() + " 【问题类型：" + question.getQuestionType() + "】");
+            log.info("开始处理Question " + (questionIndex++) + "：" + question.getQuestion() + " 【问题类型：" + question.getQuestionType() + "】");
             if (question.getQuestionType() == QuestionType.NULL) {
                 unknownTypeQuestions.add(question);
                 //未知类型按回答错误处理
                 wrongQuestions.add(question);
-                LOG.error("未知的问题类型，拒绝回答！！！");
+                log.error("未知的问题类型，拒绝回答！！！");
                 continue;
             }
             int i = 1;
             for (Evidence evidence : question.getEvidences()) {
-            	System.out.println("process:" + evidence.getTitle() + "\t" + evidence.getSnippet());
-                LOG.debug("开始处理Evidence " + (i++));
+                log.debug("开始处理Evidence " + (i++));
                 //对证据进行评分
                 //证据的分值存储在evidence对象里面
                 evidenceScore.score(question, evidence);
 
-                LOG.debug("Evidence Detail");
-                LOG.debug("Title:" + evidence.getTitle());
-                LOG.debug("Snippet:" + evidence.getSnippet());
-                LOG.debug("Score:" + evidence.getScore());
-                LOG.debug("Words:" + evidence.getWords());
+                log.debug("Evidence Detail");
+                log.debug("Title:" + evidence.getTitle());
+                log.debug("Snippet:" + evidence.getSnippet());
+                log.debug("Score:" + evidence.getScore());
+                log.debug("Words:" + evidence.getWords());
                 //提取候选答案
                 //候选答案存储在evidence对象里面
                 candidateAnswerSelect.select(question, evidence);
@@ -210,30 +207,30 @@ public class QuestionAnsweringSystemImpl implements QuestionAnsweringSystem {
                 CandidateAnswerCollection candidateAnswerCollection = evidence.getCandidateAnswerCollection();
 
                 if (!candidateAnswerCollection.isEmpty()) {
-                    LOG.debug("Evidence候选答案(未评分)：");
+                    log.debug("Evidence候选答案(未评分)：");
                     candidateAnswerCollection.showAll();
-                    LOG.debug("");
+                    log.debug("");
                     //对候选答案进行打分
                     candidateAnswerScore.score(question, evidence, candidateAnswerCollection);
-                    LOG.debug("Evidence候选答案(已评分)：");
+                    log.debug("Evidence候选答案(已评分)：");
                     candidateAnswerCollection.showAll();
-                    LOG.debug("");
+                    log.debug("");
                 } else {
-                    LOG.debug("Evidence无候选答案");
+                    log.debug("Evidence无候选答案");
                 }
 
-                LOG.debug("");
+                log.debug("");
             }
-            LOG.info("************************************");
-            LOG.info("************************************");
-            LOG.info("Question " + question.getQuestion());
-            LOG.info("Question 候选答案：");
+            log.info("************************************");
+            log.info("************************************");
+            log.info("Question " + question.getQuestion());
+            log.info("Question 候选答案：");
             for (CandidateAnswer candidateAnswer : question.getAllCandidateAnswer()) {
-                LOG.info(candidateAnswer.getAnswer() + "  " + candidateAnswer.getScore());
+                log.info(candidateAnswer.getAnswer() + "  " + candidateAnswer.getScore());
             }
             int rank = question.getExpectAnswerRank();
-            LOG.info("ExpectAnswerRank: " + rank);
-            LOG.info("");
+            log.info("ExpectAnswerRank: " + rank);
+            log.info("");
             //完美答案
             if (rank == 1) {
                 perfectQuestions.add(question);
@@ -250,22 +247,22 @@ public class QuestionAnsweringSystemImpl implements QuestionAnsweringSystem {
             if (rank > 0) {
                 mrr += (double) 1 / rank;
             }
-            LOG.info("mrr: " + mrr);
-            LOG.info("perfectCount: " + getPerfectCount());
-            LOG.info("notPerfectCount: " + getNotPerfectCount());
-            LOG.info("wrongCount: " + getWrongCount());
-            LOG.info("unknownTypeCount: " + getUnknownTypeCount());
-            LOG.info("questionCount: " + getQuestionCount());
+            log.info("mrr: " + mrr);
+            log.info("perfectCount: " + getPerfectCount());
+            log.info("notPerfectCount: " + getNotPerfectCount());
+            log.info("wrongCount: " + getWrongCount());
+            log.info("unknownTypeCount: " + getUnknownTypeCount());
+            log.info("questionCount: " + getQuestionCount());
         }
-        LOG.info("");
+        log.info("");
 
-        LOG.info("MRR：" + getMRR() * 100 + "%");
-        LOG.info("回答完美率：" + (double) getPerfectCount() / getQuestionCount() * 100 + "%");
-        LOG.info("回答不完美率：" + (double) getNotPerfectCount() / getQuestionCount() * 100 + "%");
-        LOG.info("回答错误率：" + (double) getWrongCount() / getQuestionCount() * 100 + "%");
-        LOG.info("未知类型率：" + (double) getUnknownTypeCount() / getQuestionCount() * 100 + "%");
+        log.info("MRR：" + getMRR() * 100 + "%");
+        log.info("回答完美率：" + (double) getPerfectCount() / getQuestionCount() * 100 + "%");
+        log.info("回答不完美率：" + (double) getNotPerfectCount() / getQuestionCount() * 100 + "%");
+        log.info("回答错误率：" + (double) getWrongCount() / getQuestionCount() * 100 + "%");
+        log.info("未知类型率：" + (double) getUnknownTypeCount() / getQuestionCount() * 100 + "%");
 
-        LOG.info("");
+        log.info("");
 
         return questions;
     }
@@ -277,37 +274,37 @@ public class QuestionAnsweringSystemImpl implements QuestionAnsweringSystem {
 
     @Override
     public void showPerfectQuestions() {
-        LOG.info("回答完美的问题：");
+        log.info("回答完美的问题：");
         int i = 1;
         for (Question question : perfectQuestions) {
-            LOG.info((i++) + "、" + question.getQuestion() + " : " + question.getExpectAnswerRank());
+            log.info((i++) + "、" + question.getQuestion() + " : " + question.getExpectAnswerRank());
         }
     }
 
     @Override
     public void showNotPerfectQuestions() {
-        LOG.info("回答不完美的问题：");
+        log.info("回答不完美的问题：");
         int i = 1;
         for (Question question : notPerfectQuestions) {
-            LOG.info((i++) + "、" + question.getQuestion() + " : " + question.getExpectAnswerRank());
+            log.info((i++) + "、" + question.getQuestion() + " : " + question.getExpectAnswerRank());
         }
     }
 
     @Override
     public void showWrongQuestions() {
-        LOG.info("回答错误的问题：");
+        log.info("回答错误的问题：");
         int i = 1;
         for (Question question : wrongQuestions) {
-            LOG.info((i++) + "、" + question.getQuestion());
+            log.info((i++) + "、" + question.getQuestion());
         }
     }
 
     @Override
     public void showUnknownTypeQuestions() {
-        LOG.info("未知类型的问题：");
+        log.info("未知类型的问题：");
         int i = 1;
         for (Question question : unknownTypeQuestions) {
-            LOG.info((i++) + "、" + question.getQuestion());
+            log.info((i++) + "、" + question.getQuestion());
         }
     }
 

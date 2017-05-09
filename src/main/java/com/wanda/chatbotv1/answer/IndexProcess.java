@@ -31,13 +31,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wanda.chatbotv1.utils.StringTool;
 
-public class IndexAnswer {
-	private Logger log = Logger.getLogger(IndexAnswer.class);
+public class IndexProcess {
+	private Logger log = Logger.getLogger(IndexProcess.class);
 	private static final int MAX_RESULT = 100;
 	private static final int MAX_RESULT_SEARCH = 100;
 	private static IndexSearcher indexSearcher = null;
 
-	public IndexAnswer() {
+	public IndexProcess() {
 		IndexReader reader = null;
 		try {
 			reader = DirectoryReader.open(FSDirectory.open(Paths.get("./index", new String[0])));

@@ -3,7 +3,7 @@ package com.wanda.chatbotv1.pojo;
 public class Answer {
 
 	private String answer;
-	private int level = -1;
+	private int level = Integer.MAX_VALUE;
 	private String extInfo;
 	public String getAnswer() {
 		return answer;

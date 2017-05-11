@@ -36,9 +36,8 @@ public class Searcher {
                 p.addLast("handler", new HttpServerInboundHandler());
             }
         });
-//        ChannelFuture f = b.bind("127.0.0.1", 11765).sync();
-        ChannelFuture f = b.bind("10.209.20.198", 11765).sync();
+        ChannelFuture f = b.bind("127.0.0.1", 11765).sync();
+//        ChannelFuture f = b.bind("10.209.20.198", 11765).sync();
         f.channel().closeFuture().sync();
 	}
-	
 }

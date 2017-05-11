@@ -2,9 +2,10 @@ package com.wanda.chatbot.pojo;
 
 public class Answer {
 
-	private String answer;
-	private int level = Integer.MAX_VALUE;
-	private String extInfo;
+	protected String answer;
+	//leve初始化为最大值，任何规则都可以覆盖
+	protected int level = Integer.MAX_VALUE;
+	protected String extInfo;
 	public String getAnswer() {
 		return answer;
 	}

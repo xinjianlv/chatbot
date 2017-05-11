@@ -271,7 +271,11 @@ public class Word2VEC {
 	public HashMap<String, float[]> getWordMap() {
 		return wordMap;
 	}
-
+	
+	public boolean contains(String term){
+		return wordMap.containsKey(term);
+	}
+	
 	public int getWords() {
 		return words;
 	}

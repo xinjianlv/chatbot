@@ -1,10 +1,8 @@
 package com.wanda.chatbot.bot;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
@@ -13,13 +11,10 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.wanda.chatbot.extractor.AbstractAnswerExtractor;
 import com.wanda.chatbot.extractor.ChainAnswerProcess;
+import com.wanda.chatbot.filter.AbstractFilter;
+import com.wanda.chatbot.filter.ChainFilter;
 import com.wanda.chatbot.pojo.Answer;
-import com.wanda.chatbot.process.IndexProcess;
-import com.wanda.chatbot.process.InternetProcess;
-import com.wanda.chatbot.process.PatternProcess;
-import com.wanda.chatbot.utils.FileTool;
-import com.wanda.chatbot.utils.Filters;
-import com.wanda.chatbot.utils.TrieTree;
+import com.wanda.chatbot.pojo.AnswerFilter;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -30,12 +25,11 @@ public class Action {
 
 	private static final Logger log = LoggerFactory.getLogger(Action.class);
 	private static AbstractAnswerExtractor process = null;
-	private static TrieTree dic = null;
+	private static AbstractFilter questionFilter = null;
 	static {
 		try {
-			Set<String> nodes = FileTool.LoadDictKeysFromFile("./spam.dic", 0, Charset.forName("utf-8"));
-			dic = new TrieTree(nodes, false);
 			process = ChainAnswerProcess.getChainOfProcess();
+			questionFilter = ChainFilter.getChainOfQuestionFilter();
 		} catch (Exception e) {
 			log.error(" ", e);
 			System.exit(-1);
@@ -49,7 +43,9 @@ public class Action {
 		List<String> l = mapParameters.get("q");
 		String bestAnswer = "呵呵";
 		if (null != l && l.size() > 0) {
-			String q = Filters.filter(l.get(0));
+			AnswerFilter answerFilter = new AnswerFilter();
+			questionFilter.process(l.get(0), answerFilter);
+			String q = answerFilter.getAnswer();
 			if (q.trim().length() > 0) {
 
 				log.info("question=" + q);

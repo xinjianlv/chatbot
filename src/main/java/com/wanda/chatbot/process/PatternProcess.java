@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 
 import com.wanda.chatbot.pojo.AnswerList;
 import com.wanda.chatbot.utils.FileTool;
-import com.wanda.chatbot.utils.Filters;
 import com.wanda.chatbot.utils.StrUtils;
 
 
@@ -25,7 +24,7 @@ public class PatternProcess extends TimerTask{
 	public void loadPattern(){
 		try {
 			log.info("加载模板：pattern.dic");
-			List<String> lines = FileTool.LoadListFromFile("./pattern.dic", 0, Charset.forName("utf-8"));
+			List<String> lines = FileTool.LoadListFromFile("./outer_dic/pattern.dic", 0, Charset.forName("utf-8"));
 			String [][] matrix = parser(lines);
 			HashMap<String , Integer> questionMap = getQuestionMap(matrix);
 			HashMap<Integer , List<String>> answerMap = getAnswerMap(matrix);
@@ -81,10 +80,9 @@ public class PatternProcess extends TimerTask{
 		return matrix;
 	}
 	public String getAnswer(String question){
-		String qs = Filters.filterPunSym(question);
 		String an = "";
-		if(questionIndesx.containsKey(qs)){
-			int index = questionIndesx.get(qs);
+		if(questionIndesx.containsKey(question)){
+			int index = questionIndesx.get(question);
 			an = answer.get(index).getRandomAnswer();
 		}
 		return an;

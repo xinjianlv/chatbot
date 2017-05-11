@@ -60,6 +60,7 @@ public class BestVec {
 			List<String> terms = Segment.seg(input);
 			float [][] matrix = new float[terms.size()][];
 			for(int i = 0 ; i < terms.size() ; i++){
+				
 				matrix[i] = vec.getWordVector(terms.get(i));
 			}
 			matrix = removeNaNAndNull(matrix);

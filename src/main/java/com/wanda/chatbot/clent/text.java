@@ -1,7 +1,10 @@
 package com.wanda.chatbot.clent;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 public class text extends JFrame implements KeyListener
 {  
  private static text frm;

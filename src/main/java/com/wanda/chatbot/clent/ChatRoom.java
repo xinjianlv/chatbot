@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 public class ChatRoom extends JFrame implements MouseListener, KeyListener {
@@ -116,7 +115,7 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 			String jsonRe = HttpsRequestUtil.getDataByHttp(qString);
 			if(jsonRe != null && jsonRe.length() > 0){
 				JSONObject j = JSONObject.parseObject(jsonRe);
-				result = j.getString("answer");
+				result = j.getString("tip");
 			}
 			
 			return result;

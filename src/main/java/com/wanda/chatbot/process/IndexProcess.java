@@ -3,7 +3,9 @@ package com.wanda.chatbot.process;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
@@ -29,6 +31,9 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wanda.chatbot.filter.AbstractFilter;
+import com.wanda.chatbot.filter.ChainFilter;
+import com.wanda.chatbot.pojo.AnswerFilter;
 import com.wanda.chatbot.utils.StringTool;
 
 public class IndexProcess {
@@ -36,12 +41,15 @@ public class IndexProcess {
 	private static final int MAX_RESULT = 100;
 	private static final int MAX_RESULT_SEARCH = 100;
 	private static IndexSearcher indexSearcher = null;
-
+	private static AbstractFilter chainFilter = null;
+	private static Word2VecProcess word2vec = null;
 	public IndexProcess() {
 		IndexReader reader = null;
 		try {
 			reader = DirectoryReader.open(FSDirectory.open(Paths.get("./index", new String[0])));
 			indexSearcher = new IndexSearcher(reader);
+			chainFilter = ChainFilter.getChainOfAnswerFilter();
+			word2vec = new Word2VecProcess();
 		} catch (Exception e) {
 			log.error(" ", e);
 		}
@@ -98,17 +106,19 @@ public class IndexProcess {
 			String firstAnswer = "";
 			double topScore = -1;
 			int maxlcs = -1;
-
+			List<String> answerList = new ArrayList<String>(); 
 			for (ScoreDoc d : topDocs.scoreDocs) {
 				Document doc = indexSearcher.doc(d.doc);
 				String question = doc.get("question");
 				String answer = doc.get("answer");
 				log.info("answer:" + answer);
-//				Set<String> set = dic.detectString(answer);
-//				if (set.size() > 0) {
-//					logChat.info(" contain spam word : " + "[" + answer + "]");
-//					continue;
-//				}
+				AnswerFilter anFilter = new AnswerFilter(answer);
+				chainFilter.process(answer, anFilter);
+				if(anFilter.isMatchFilter()){
+					log.info("there is a spam word. pass the answer");
+					continue;
+				}
+				answerList.add(answer);
 				String lcs = StringTool.getLCS(questionMath, answer);
 				JSONObject item = new JSONObject();
 				item.put("question", question);
@@ -131,6 +141,8 @@ public class IndexProcess {
 				}
 
 			}
+			String similarity = word2vec.getSimilarityAnswer(q, answerList);
+			log.info("word2vec:" + similarity);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

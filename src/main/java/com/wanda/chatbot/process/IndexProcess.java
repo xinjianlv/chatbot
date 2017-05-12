@@ -33,10 +33,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wanda.chatbot.filter.AbstractFilter;
 import com.wanda.chatbot.filter.ChainFilter;
+import com.wanda.chatbot.pojo.Answer;
 import com.wanda.chatbot.pojo.AnswerFilter;
 import com.wanda.chatbot.utils.StringTool;
 
-public class IndexProcess {
+public class IndexProcess implements AbstractProcess{
 	private Logger log = Logger.getLogger(IndexProcess.class);
 	private static final int MAX_RESULT = 100;
 	private static final int MAX_RESULT_SEARCH = 100;
@@ -54,8 +55,9 @@ public class IndexProcess {
 			log.error(" ", e);
 		}
 	}
-	public 	String getAnswer(String q){
+	public 	Answer getAnswer(String q){
 		String bestAnswer = "呵呵";
+		String wvAnswer = "呵呵";
 		try {
 			Query query = null;
 			PriorityQueue<ScoreDoc> pq = new PriorityQueue<ScoreDoc>(MAX_RESULT) {
@@ -111,6 +113,7 @@ public class IndexProcess {
 				Document doc = indexSearcher.doc(d.doc);
 				String question = doc.get("question");
 				String answer = doc.get("answer");
+				log.info("match question:" + question);
 				log.info("answer:" + answer);
 				AnswerFilter anFilter = new AnswerFilter(answer);
 				chainFilter.process(answer, anFilter);
@@ -141,8 +144,8 @@ public class IndexProcess {
 				}
 
 			}
-			String similarity = word2vec.getSimilarityAnswer(q, answerList);
-			log.info("word2vec:" + similarity);
+			wvAnswer = word2vec.getSimilarityAnswer(q, answerList);
+			log.info("word2vec:" + wvAnswer);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,7 +153,7 @@ public class IndexProcess {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return bestAnswer;
+		return new Answer(bestAnswer + "_" + wvAnswer , IndexProcess.class.getSimpleName());
 	}
 	public String filterStopWords(String question) {
 		String re = "";

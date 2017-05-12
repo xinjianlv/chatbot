@@ -106,7 +106,8 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 	public void mouseExited(MouseEvent e) {
 	}
 
-	private String servername = "http://127.0.0.1:11765/?q=";
+//	private String servername = "http://127.0.0.1:11765/?q=";
+	private String servername = "http://10.209.20.198:12765/?q=";
 
 	public String getAnswer(String question) {
 		try {

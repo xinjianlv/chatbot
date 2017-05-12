@@ -14,7 +14,7 @@ public class Word2VecProcess {
 	public Word2VecProcess() {
 		vec = new Word2VEC();
 		try {
-			vec.loadModel("./word2vec/vector.chunk1.bin");
+			vec.loadModel("./vectors.bin");
 		} catch (IOException e) {
 			log.error(" ", e);
 		}

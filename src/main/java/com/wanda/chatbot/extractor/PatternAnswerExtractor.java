@@ -16,11 +16,11 @@ public class PatternAnswerExtractor extends AbstractAnswerExtractor{
 	
 	@Override
 	protected void findAnswer(String message , Answer answer) {
-		String astr =  patternProcess.getAnswer(message);
-		log.info("find answer:" + astr);
-		if(this.level < answer.getLevel() && astr != null && astr.trim().length() > 0){
+		Answer as =  patternProcess.getAnswer(message);
+		log.info("find answer:" + as);
+		if(this.level < answer.getLevel() && as != null && as.getAnswer().trim().length() > 0){
 			log.info("overwrite answer(pattern)");
-			answer.setAnswer(astr);
+			answer.setAnswer(as.getAnswer());
 			answer.setLevel(this.level);
 		}
 	}

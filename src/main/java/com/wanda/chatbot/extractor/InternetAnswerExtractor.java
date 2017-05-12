@@ -15,11 +15,11 @@ public class InternetAnswerExtractor extends AbstractAnswerExtractor{
 	
 	@Override
 	protected void findAnswer(String message , Answer answer) {
-		String astr =  internetProcess.getAnswer(message);
-		log.info("find answer:" + astr);
-		if(this.level < answer.getLevel() && astr != null && astr.trim().length() > 0){
+		Answer as =  internetProcess.getAnswer(message);
+		log.info("find answer:" + as);
+		if(this.level < answer.getLevel() && as != null && as.getAnswer().trim().length() > 0){
 			log.info("overwrite answer(internet)");
-			answer.setAnswer(astr);
+			answer.setAnswer(as.getAnswer());
 			answer.setLevel(this.level);
 		}
 	}

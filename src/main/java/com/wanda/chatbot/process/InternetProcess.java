@@ -3,6 +3,7 @@ package com.wanda.chatbot.process;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wanda.chatbot.pojo.Answer;
 import com.wanda.qa.datasource.BaiduDataSource;
 import com.wanda.qa.datasource.DataSource;
 import com.wanda.qa.files.FilesConfig;
@@ -12,7 +13,7 @@ import com.wanda.qa.model.QuestionType;
 import com.wanda.qa.system.CommonQuestionAnsweringSystem;
 import com.wanda.qa.system.QuestionAnsweringSystem;
 
-public class InternetProcess {
+public class InternetProcess implements AbstractProcess{
 
 	private static QuestionAnsweringSystem questionAnsweringSystem = null;
 	public InternetProcess(){
@@ -28,11 +29,11 @@ public class InternetProcess {
 		questionAnsweringSystem.setDataSource(dataSource);
 	}
 	
-	public String getAnswer(String question){
+	public Answer getAnswer(String question){
 		Question qa = questionAnsweringSystem.answerQuestion(question);
 		if (qa.getQuestionType() != QuestionType.NULL)
 	        for(CandidateAnswer canswer :  qa.getAllCandidateAnswer()){
-	        	return canswer.getAnswer();
+	        	return new Answer(canswer.getAnswer() , InternetProcess.class.getSimpleName());
 	        }
         return null;
 	}

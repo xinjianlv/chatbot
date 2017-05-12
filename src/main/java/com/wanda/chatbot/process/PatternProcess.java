@@ -11,13 +11,14 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
+import com.wanda.chatbot.pojo.Answer;
 import com.wanda.chatbot.pojo.AnswerList;
 import com.wanda.chatbot.utils.FileTool;
 import com.wanda.chatbot.utils.StrUtils;
 
 
 
-public class PatternProcess extends TimerTask{
+public class PatternProcess extends TimerTask implements AbstractProcess{
 	private Logger log = Logger.getLogger(PatternProcess.class);
 	private static HashMap<String , Integer> questionIndesx = null;
 	private static HashMap<Integer ,AnswerList> answer = null;
@@ -79,18 +80,18 @@ public class PatternProcess extends TimerTask{
 		}
 		return matrix;
 	}
-	public String getAnswer(String question){
+	public Answer getAnswer(String question){
 		String an = "";
 		if(questionIndesx.containsKey(question)){
 			int index = questionIndesx.get(question);
 			an = answer.get(index).getRandomAnswer();
 		}
-		return an;
+		return new Answer(an , PatternProcess.class.getSimpleName());
 	}
 	
 	public static void main(String[] args) {
 		PatternProcess pattern = new PatternProcess();
-		String an = pattern.getAnswer("test");
-		System.out.println(an);
+		Answer an = pattern.getAnswer("test");
+		System.out.println(an.getAnswer());
 	}
 }

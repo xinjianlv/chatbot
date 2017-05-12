@@ -9,6 +9,14 @@ public class Answer {
 	public String getAnswer() {
 		return answer;
 	}
+	public Answer(){}
+	public Answer(String answer){
+		this.answer = answer;
+	}
+	public Answer(String answer , String info){
+		this.answer = answer;
+		this.extInfo = info;
+	}
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}

@@ -27,6 +27,8 @@ public class Word2VecProcess {
 		float [] qvec = getSentenceVec(question);
 		for(int i = 0 ; i < answers.size() ; i++){
 			float [] avec = getSentenceVec(answers.get(i));
+			if (qvec == null || avec == null)
+				continue;
 			double score = cosine(qvec , avec);
 			if(maxScore < score){
 				maxScore = score;
@@ -51,9 +53,10 @@ public class Word2VecProcess {
 					matrix[i] = new float [vec.getSize()];
 				}
 			}
-			return vecSum(matrix);
+			if (matrix.length > 0)
+				return vecSum(matrix);
 		}catch(Exception e){
-			log.error(" " , e);
+			log.error("getSentenceVec" , e);
 		}
 		return null;
 	}
@@ -87,9 +90,18 @@ public class Word2VecProcess {
 			
 			return vec12 / (Math.sqrt(m1) * Math.sqrt(m2));
 		}catch(Exception e){
-			log.error(" " , e);
+			log.error("cosine" , e);
+			log.error("cosine:vec1" + vec1);
+			log.error("cosine:vec2" + vec2);
 		}
 		return Float.NaN;
 	}
 	
+	public static void main(String[] args) {
+		float [][] arr = new float[][]{{1,2,3},{2,3,4}};
+		float[] sum = vecSum(arr);
+		for(float f : sum)
+			System.out.print(f + "\t");
+		
+	}
 }

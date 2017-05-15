@@ -31,19 +31,30 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 	private JFrame frame;
 	private JTextArea viewArea;
 	private JTextField viewField;
-	private JButton button1;
-	private JButton button2;
+	private JButton buttonSend;
+	private JButton buttonQuit;
+	private JButton buttonLocal;
+	private JButton buttonOnline;
+	private JButton buttonOnlineTest;
 	private JLabel jlable;
 	private JTextField MyName;
-
+	private final String server_local = "http://127.0.0.1:11765/?q=";
+	private final String server_online = "http://10.209.20.198:11765/?q=";
+	private final String server_online_test = "http://10.209.20.198:12765/?q=";
+	private String server = server_online;
+	private String servername = "小飞(online):";
+	
 	public ChatRoom() {
 		frame = new JFrame("Chat Room");
 		viewArea = new JTextArea(10, 50);
 		viewField = new JTextField(50);
 		jlable = new JLabel();
-		jlable.setText("在线");
-		button1 = new JButton("Send");
-		button2 = new JButton("Quit");
+		jlable.setText("请勿使用代理");
+		buttonSend = new JButton("Send");
+		buttonQuit = new JButton("Quit");
+		buttonLocal = new JButton("Local");
+		buttonOnline = new JButton("Online");
+		buttonOnlineTest = new JButton("Test");
 		MyName = new JTextField();
 		MyName.setColumns(9);
 		MyName.setText("飞翔的企鹅");
@@ -51,8 +62,11 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 		panel.setLayout(new GridLayout(8, 1));
 		panel.add(jlable);
 //		panel.add(MyName);
-		panel.add(button1);
-		panel.add(button2);
+		panel.add(buttonSend);
+		panel.add(buttonQuit);
+		panel.add(buttonLocal);
+		panel.add(buttonOnline);
+		panel.add(buttonOnlineTest);
 		JScrollPane sp = new JScrollPane(viewArea);
 		sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -61,10 +75,13 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 		frame.add("South", viewField);
 		frame.setSize(400, 250);
 		frame.setVisible(true);
-		button1.addMouseListener((MouseListener) this);
-		button2.addMouseListener((MouseListener) this);
+		buttonSend.addMouseListener((MouseListener) this);
+		buttonQuit.addMouseListener((MouseListener) this);
+		buttonLocal.addMouseListener((MouseListener) this);
+		buttonOnline.addMouseListener((MouseListener) this);
+		buttonOnlineTest.addMouseListener((MouseListener) this);
 		viewField.addKeyListener((KeyListener) this);
-		viewArea.setText("你好，欢迎使用\n");
+		viewArea.setText("你好，欢迎使用小飞测试工具\n");
 	}
 
 	public void mouseClicked(MouseEvent evt) {
@@ -72,21 +89,32 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 			String message = "";
 			StringBuilder sb = new StringBuilder();
 			message = viewField.getText();
-			if (evt.getSource() == button1) {
+			if (evt.getSource() == buttonSend) {
 				String answer = getAnswer(URLEncoder.encode(message, "utf-8"));
 
 				sb.append("guest:" + message + "\n");
 				if (answer != null)
-					sb.append("xm:" + answer + "\n");
+					sb.append(servername + answer + "\n");
 				else
-					sb.append("xm:" + "balabala...\n");
+					sb.append(servername + "balabala...\n");
 				viewArea.setText(viewArea.getText() + sb.toString());
 			}
-			if (evt.getSource() == button2) {
+			if (evt.getSource() == buttonQuit) {
 				message = "退出";
 				viewArea.setText(message);
 				viewField.setText("");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			}
+			if(evt.getSource() == buttonLocal){
+				server = server_local;
+				servername = "小飞(local):";
+			}
+			else if (evt.getSource() == buttonOnline){
+				server = server_online;
+				servername = "小飞(online):";
+			}else if(evt.getSource() == buttonOnlineTest){
+				server = server_online_test;
+				servername = "小飞(test):";
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -106,13 +134,12 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 	public void mouseExited(MouseEvent e) {
 	}
 
-//	private String servername = "http://127.0.0.1:11765/?q=";
-	private String servername = "http://10.209.20.198:12765/?q=";
+
 
 	public String getAnswer(String question) {
 		try {
 			String result = "";
-			String qString = servername + question;
+			String qString = server + question;
 			String jsonRe = HttpsRequestUtil.getDataByHttp(qString);
 			if(jsonRe != null && jsonRe.length() > 0){
 				JSONObject j = JSONObject.parseObject(jsonRe);
@@ -144,9 +171,9 @@ public class ChatRoom extends JFrame implements MouseListener, KeyListener {
 
 					sb.append("guest:" + message + "\n");
 					if (answer != null)
-						sb.append("xm:" + answer + "\n");
+						sb.append(servername + answer + "\n");
 					else
-						sb.append("xm:" + "balabala...\n");
+						sb.append(servername + "balabala...\n");
 					viewArea.setText(viewArea.getText() + sb.toString());
 					viewField.setText("");
 				}

@@ -33,49 +33,8 @@ public class Tools {
 		}
 		return list;
 	} 
-	public static Map<String , Double> getFavorite(Map<String , Double> mapScore){
-		Map<String , Double> reMap = new HashMap<String, Double>();
-		try{		
-			double sigma = MathTool.getSigma(mapScore.values());
-			double mean = MathTool.getArithmeticMean(mapScore.values());
-			for(Entry<String , Double> en : mapScore.entrySet()){
-				if(en.getValue() - mean > sigma){
-					reMap.put(en.getKey(), en.getValue());
-				}
-			}			
-			return reMap;
-			
-		}catch(Exception e){
-			e.printStackTrace();
-			return reMap;
-		}
-	}
-	public static ArrayList<Entry<String , Double>> getFavoriteItem(Map<String , Double> itemIdMap){
-		ArrayList<Entry<String , Double>> result = new ArrayList<Map.Entry<String,Double>>();
-		try{
-//			normalized(itemIdMap);
-			//获取较高得分的条目
-			Map<String , Double> favorite = Tools.getFavorite(itemIdMap);
-			ArrayList<Entry<String , Double>> sortList = new ArrayList<Entry<String,Double>>();
-			if(favorite.size() == 0 && itemIdMap.size() > 0){
-				sortList = new ArrayList<Entry<String , Double>>(itemIdMap.entrySet());
-			}else{
-				sortList = new ArrayList<Entry<String , Double>>(favorite.entrySet());
-			}
-			new SortMap<String , Double>().sortByValue(sortList);			
-		
-			if(favorite.size() == 0 && itemIdMap.size() > 0){
-				result.add(sortList.get(0));
-			}else if (favorite.size() > 0){
-				result.addAll(sortList);
-			}else{
-			}
-			return result;
-		}catch(Exception e){
-			e.printStackTrace();
-			return result;
-		}
-	}
+
+	
 	public static void  normalized(ArrayList<Entry<String , Double>> list){
 		try{
 			double sum = 0; 

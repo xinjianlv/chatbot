@@ -1,4 +1,3 @@
-DateAsk 明天是周几？
 Person 1990年中国共产党的总书记是谁
 Person 被火烧死的革命战士是谁
 Person 请问初唐四杰是哪四位

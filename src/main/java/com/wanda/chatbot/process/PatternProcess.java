@@ -18,7 +18,7 @@ import com.wanda.chatbot.utils.StrUtils;
 
 
 
-public class PatternProcess extends TimerTask implements AbstractProcess{
+public class PatternProcess extends TimerTask implements ProcessInterface{
 	private Logger log = Logger.getLogger(PatternProcess.class);
 	private static HashMap<String , Integer> questionIndesx = null;
 	private static HashMap<Integer ,AnswerList> answer = null;

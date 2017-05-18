@@ -13,8 +13,7 @@ public class ChainAnswerProcess {
 //		pattern.setNextAnswerExtractor(internet);
 //		internet.setNextAnswerExtractor(index);
 		
-		pattern.setNextAnswerExtractor(index);
 
-		return pattern;
+		return internet;
 	}
 }

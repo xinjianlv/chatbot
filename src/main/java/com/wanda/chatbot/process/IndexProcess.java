@@ -37,7 +37,7 @@ import com.wanda.chatbot.pojo.Answer;
 import com.wanda.chatbot.pojo.AnswerFilter;
 import com.wanda.chatbot.utils.StringTool;
 
-public class IndexProcess implements AbstractProcess{
+public class IndexProcess implements ProcessInterface{
 	private Logger log = Logger.getLogger(IndexProcess.class);
 	private static final int MAX_RESULT = 100;
 	private static final int MAX_RESULT_SEARCH = 100;

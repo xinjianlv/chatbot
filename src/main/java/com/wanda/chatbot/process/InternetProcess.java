@@ -13,7 +13,7 @@ import com.wanda.qa.model.QuestionType;
 import com.wanda.qa.system.CommonQuestionAnsweringSystem;
 import com.wanda.qa.system.QuestionAnsweringSystem;
 
-public class InternetProcess implements AbstractProcess{
+public class InternetProcess implements ProcessInterface{
 
 	private static QuestionAnsweringSystem questionAnsweringSystem = null;
 	public InternetProcess(){

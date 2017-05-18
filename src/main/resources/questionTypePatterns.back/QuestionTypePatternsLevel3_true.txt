@@ -1,5 +1,18 @@
-Person->Single1 (nz|i).*(V.).*(RW.RWPersonSingle).*
-Person->Single2 老大.*(V.).*(RW.RWPersonSingle).*
+Person->Multi1 .*(RW.RWPersonMulti).*
+Person->Multi2 .*(V.).*(RW.RWOrdinaryMulti).*(nr|nr1|nr2|nrj|nrf).*
+Person->Multi3 .*(nr|nr1|nr2|nrj|nrf).*(V.).*(RW.RWPersonMulti).*
+Person->Multi4 .*(nr|nr1|nr2|nrj|nrf).*(V.).*(RW.RWOrdinaryMulti).*
+Person->Multi5 .*哪.*M.*(nr|nr1|nr2|nrj|nrf).*
+Person->Description .*(V.).*(RW.RWDescriptive).*(nr|nr1|nr2|nrj|nrf).*
+Person->Single1 .*(RW.RWPersonSingle).*
+Person->Single2 .*(nr|nr1|nr2|nrj|nrf).*(V.).*(RW.RWOrdinarySingle).*
+Person->Single3 .*(nr|nr1|nr2|nrj|nrf).*(V.).*(RW.RWPersonSingle).*
+Person->Single4 .*(RW.RWOrdinarySingle).*(nr|nr1|nr2|nrj|nrf).*(V.).*
+Person->Single5 .*(RW.RWPersonSingle).*(V.).*(nr|nr1|nr2|nrj|nrf).*
+Person->Single6 .*(V.).*(RW.RWPersonSingle).*
+Person->Single7 .*(V.).*(RW.RWPersonSingle).*(V.).*
+Person->Single8 .*(V.).*(RW.RWOrdinarySingle).*(nr|nr1|nr2|nrj|nrf).*
+Person->Single9 .*(V.).*(RW.RWPersonSingle).*(nr|nr1|nr2|nrj|nrf).*
 
 Location->Multi1 .*RWLocationMulti*
 Location->Multi2 .*(V.).*(RW.RWOrdinaryMulti).*(ns|nsf).*

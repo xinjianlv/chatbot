@@ -6,8 +6,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 
@@ -266,34 +269,96 @@ public class StringTool {
 		 return list;
 	 }
 	 
-	 public static String removeBaskets(String str){
-		 try{
-			if((str.contains("（") || str.contains("(")) && (str.contains("）")||str.contains(")"))){
-				return str.replaceAll("[\\(（][\\s\\S]*[\\)）]", "");
-			}else
-				return str;
-		 }catch(Exception e){
-			 e.printStackTrace();
-			 return null;
-		 } 
-	 }
-//	 public static boolean isNull(String str){
-//		 if(str == null)
-//			 return false;
-//		 if(str.length() == 0)
-//			 return false;
-//		 if(str.equals())
-//	 }
+	 public static String getBraketContent(String managers){
+	        List<String> ls=new ArrayList<String>();
+	        Pattern pattern = Pattern.compile("(?<=\\()(.+?)(?=\\))");
+	        Matcher matcher = pattern.matcher(managers);
+	        while(matcher.find())
+	            ls.add(matcher.group());
+	        if(ls.size() > 0)
+	        	return ls.get(0);
+	        return null;
+	    }
+		//最长公共子串
+		public static List<String> getLCString(char[] str1, char[] str2) {
+			List<String> list = new ArrayList<String>();
+			int len1, len2;
+			len1 = str1.length;
+			len2 = str2.length;
+			int maxLen = len1 > len2 ? len1 : len2;
+
+			int[] max = new int[maxLen];// 保存最长子串长度的数组
+			int[] maxIndex = new int[maxLen];// 保存最长子串长度最大索引的数组
+			int[] c = new int[maxLen];
+
+			int i, j;
+			for (i = 0; i < len2; i++) {
+				for (j = len1 - 1; j >= 0; j--) {
+					if (str2[i] == str1[j]) {
+						if ((i == 0) || (j == 0))
+							c[j] = 1;
+						else
+							c[j] = c[j - 1] + 1;//此时C[j-1]还是上次循环中的值，因为还没被重新赋值
+					} else {
+						c[j] = 0;
+					}
+
+					// 如果是大于那暂时只有一个是最长的,而且要把后面的清0;
+					if (c[j] > max[0]) {
+						max[0] = c[j];
+						maxIndex[0] = j;
+
+						for (int k = 1; k < maxLen; k++) {
+							max[k] = 0;
+							maxIndex[k] = 0;
+						}
+					}
+					// 有多个是相同长度的子串
+					else if (c[j] == max[0]) {
+						for (int k = 1; k < maxLen; k++) {
+							if (max[k] == 0) {
+								max[k] = c[j];
+								maxIndex[k] = j;
+								break; // 在后面加一个就要退出循环了
+							}
+						}
+					}
+				}
+//				for (int temp : c) {
+//					System.out.print(temp);
+//				}
+//				System.out.println();
+			}
+	        //打印最长子字符串
+			for (j = 0; j < maxLen; j++) {
+				if (max[j] > 0) {
+					StringBuilder sb = new StringBuilder();
+					for (i = maxIndex[j] - max[j] + 1; i <= maxIndex[j]; i++){
+						sb.append(str1[i]);
+					}
+					list.add(sb.toString());
+				}
+			}
+			return list;
+		}
+
+	public static String reverse(String s) {
+		int length = s.length();
+		if (length <= 1)
+			return s;
+		String left = s.substring(0, length / 2);
+		String right = s.substring(length / 2, length);
+		return reverse(right) + reverse(left);
+	}
 	public static void main(String[] args) {
-		System.out.println( "里脊肉8斤".replaceAll("(?<=\\().*(?=\\))", ""));
-		String str = "酸菜（同力）50斤";
-		System.out.println(removeBaskets(str));
-		System.out.println( "酸菜（同力）50斤".replaceAll("[\\(（][\\s\\S]*[\\)）]", ""));
+		String str = "酸酸菜(同力)50斤";
+		System.out.println(getBraketContent(str));
+		System.out.println( "酸菜(同力)50斤".replaceAll("[\\(（][\\s\\S]*[\\)）]", ""));
 //		String string = "   zjho   gahgon神风       怪盗 围观    ";		
 //		System.out.println(repalceSequenceChar(string, ' '));
-		String b="ABCBDAB";
-		String a="BDCABA";
-		String sub = getLCS(a, b);
+		String b="ABBC";
+		String a="BDCBBC";
+		List<String> sub = getLCString(a.toCharArray(), b.toCharArray());
 		System.out.println(sub);
 //		String result = repalceSequenceChar("true     false" , ' ');
 //		System.out.println(result);

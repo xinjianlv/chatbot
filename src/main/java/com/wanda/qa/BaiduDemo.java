@@ -28,6 +28,7 @@ import com.wanda.qa.datasource.DataSource;
 import com.wanda.qa.files.FilesConfig;
 import com.wanda.qa.model.CandidateAnswer;
 import com.wanda.qa.model.Question;
+import com.wanda.qa.model.QuestionType;
 import com.wanda.qa.system.CommonQuestionAnsweringSystem;
 import com.wanda.qa.system.QuestionAnsweringSystem;
 
@@ -51,10 +52,11 @@ public class BaiduDemo {
 
         QuestionAnsweringSystem questionAnsweringSystem = new CommonQuestionAnsweringSystem();
         questionAnsweringSystem.setDataSource(dataSource);
-        Question qa = questionAnsweringSystem.answerQuestion("百度的老大是谁");
-        for(CandidateAnswer canswer :  qa.getAllCandidateAnswer()){
-        	System.out.printf("answer:%s\tscore:%f\n", canswer.getAnswer() ,canswer.getScore());
-        }
+        Question qa = questionAnsweringSystem.answerQuestion("明天会更好");
+        if (qa.getQuestionType() != QuestionType.NULL)
+	        for(CandidateAnswer canswer :  qa.getAllCandidateAnswer()){
+	        	System.out.printf("answer:%s\tscore:%f\n", canswer.getAnswer() ,canswer.getScore());
+	        }
         
 //        questionAnsweringSystem.showPerfectQuestions();
 //        questionAnsweringSystem.getCandidateAnswerScore();

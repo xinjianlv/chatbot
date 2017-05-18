@@ -49,6 +49,8 @@ public class QuestionTypeTransformer {
         if (questionType.contains("Time")) {
             return QuestionType.TIME;
         }
+        if (questionType.contains("DateAsk"))
+        	return QuestionType.DATEASK;
         /**
          * 下面两种问题类型目前还不能回答
         if (questionType.contains("Object")) {

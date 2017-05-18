@@ -2,6 +2,8 @@ PersonOfDis->Multi1 .*(RW.RWOrdinaryMulti)/(nr|nr1|nr2|nrj|nrf).*
 PersonOfDis->Single1 .*(RW.RWOrdinarySingle)/(nr|nr1|nr2|nrj|nrf).*
 PersonOfDis->Single2 .*(RW.RWPersonSingle)/(nr|nr1|nr2|nrj|nrf).*
 
+DateAsk .*(t).*(v).*(号|日).*
+
 LocationOfDis->Multi1 .*(RW.RWOrdinaryMulti)/(ns|nsf).*
 LocationOfDis->Multi2 .*(RW.RWLocationMulti)/(ns|nsf).*
 LocationOfDis->Multi3 .*(V).*哪.*(M.)(ns|nsf)

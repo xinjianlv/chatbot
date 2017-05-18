@@ -7,9 +7,10 @@ import com.wanda.qa.questiontypeanalysis.patternbased.PatternBasedMultiLevelQues
 import com.wanda.qa.questiontypeanalysis.patternbased.PatternMatchResultSelector;
 import com.wanda.qa.questiontypeanalysis.patternbased.PatternMatchStrategy;
 import com.wanda.qa.questiontypeanalysis.patternbased.QuestionPattern;
+import org.apache.log4j.Logger;
 
 public class QuestionClassifyDemo {
-
+	static Logger log = Logger.getLogger(QuestionClassifyDemo.class);
 	public static void main(String[] args) {
 		 PatternMatchStrategy patternMatchStrategy = new PatternMatchStrategy();
 	        patternMatchStrategy.addQuestionPattern(QuestionPattern.Question);
@@ -24,6 +25,7 @@ public class QuestionClassifyDemo {
 	        QuestionClassifier questionClassifier = new PatternBasedMultiLevelQuestionClassifier(patternMatchStrategy, patternMatchResultSelector);
 	        
 	        Question question = new Question();
+	        log.info("question:"+"明天是周几?");
 	        question.setQuestion("明天是周几？");
 	        question = questionClassifier.classify(question);
 	        System.out.println("type:" + question.getQuestionType());

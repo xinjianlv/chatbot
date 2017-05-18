@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
-
 public class TextTool {
 	public static HashSet<String> stopwords;
 	public static HashSet<String> commaPuc;
@@ -21,9 +20,10 @@ public class TextTool {
 
 	static {
 		try {
+
 			stopwords = new HashSet<String>();
 			InputStream is = TextTool.class.getClassLoader()
-					.getResourceAsStream("resource/stopwords.txt");
+                    .getResourceAsStream("stopwords.txt");
 			BufferedReader fin = new BufferedReader(new InputStreamReader(is,
 					"utf8"));
 			String line = null;
@@ -347,8 +347,7 @@ public class TextTool {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(isSymbol('+'));
+		System.out.print(TextTool.class.getClassLoader().getResource("log4j.properties").getFile());
 
 	}
 }

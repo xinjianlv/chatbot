@@ -51,7 +51,8 @@ public class Segment {
 				ts.end();
 				return list;
 		} catch (Exception e) {
-			log.error("" ,e);
+			log.error("segment" ,e);
+			log.info("input:"+input );
 		}finally{
 			if(ts != null){
 				try {

@@ -1,12 +1,11 @@
 package com.wanda.chatbot.process;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
 import com.ml.word2vec.Segment;
 import com.ml.word2vec.Word2VEC;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
+import java.util.List;
 
 public class Word2VecProcess {
 	Logger log = Logger.getLogger(Word2VecProcess.class);

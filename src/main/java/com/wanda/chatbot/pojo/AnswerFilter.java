@@ -1,6 +1,6 @@
 package com.wanda.chatbot.pojo;
 
-public class AnswerFilter extends Answer{
+public class AnswerFilter extends Answer {
 	private boolean matchFilter = false;
 
 	public AnswerFilter(){

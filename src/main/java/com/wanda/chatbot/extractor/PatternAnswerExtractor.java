@@ -1,13 +1,12 @@
 package com.wanda.chatbot.extractor;
 
-import org.apache.log4j.Logger;
-
 import com.wanda.chatbot.pojo.Answer;
 import com.wanda.chatbot.process.PatternProcess;
+import org.apache.log4j.Logger;
 
-public class PatternAnswerExtractor extends AbstractAnswerExtractor{
+public class PatternAnswerExtractor extends AbstractAnswerExtractor {
 	Logger log = Logger.getLogger(PatternAnswerExtractor.class);
-	private  PatternProcess patternProcess = null;
+	private PatternProcess patternProcess = null;
 	public PatternAnswerExtractor(int level){
 		this.level = level;
 		patternProcess = new PatternProcess();
@@ -18,9 +17,9 @@ public class PatternAnswerExtractor extends AbstractAnswerExtractor{
 	protected void findAnswer(String message , Answer answer) {
 		Answer as =  patternProcess.getAnswer(message);
 		log.info("find answer:" + as);
-		if(this.level < answer.getLevel() && as != null && as.getAnswer().trim().length() > 0){
+		if(this.level < answer.getLevel() && as != null && as.getAnswer()!= null && as.getAnswer().trim().length() > 0){
 			log.info("overwrite answer(pattern)");
-			answer.setAnswer(as.getAnswer());
+			answer.setAnswer(as);
 			answer.setLevel(this.level);
 		}
 	}

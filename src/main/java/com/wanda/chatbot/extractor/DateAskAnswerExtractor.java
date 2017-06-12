@@ -1,6 +1,7 @@
 package com.wanda.chatbot.extractor;
 
 import com.wanda.chatbot.pojo.Answer;
+import com.wanda.chatbot.pojo.ExtraInformation;
 import com.wanda.chatbot.process.time.DateAskProcess;
 import org.apache.log4j.Logger;
 
@@ -21,9 +22,9 @@ public class DateAskAnswerExtractor extends AbstractAnswerExtractor{
     protected void findAnswer(String message, Answer answer) {
         Answer as =  dateAskProcess.getAnswer(message);
         log.info("find answer:" + as);
-        if(this.level < answer.getLevel() && as != null && as.getAnswer().trim().length() > 0){
+        if(this.level < answer.getLevel() && as != null && as.getAnswer() != null && as.getAnswer().trim().length() > 0){
             log.info("overwrite answer(dateAsk)");
-            answer.setAnswer(as.getAnswer());
+            answer.setAnswer(as);
             answer.setLevel(this.level);
         }
     }

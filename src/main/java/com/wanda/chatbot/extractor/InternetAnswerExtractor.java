@@ -19,7 +19,7 @@ public class InternetAnswerExtractor extends AbstractAnswerExtractor{
 		log.info("find answer:" + as);
 		if(this.level < answer.getLevel() && as != null && as.getAnswer().trim().length() > 0){
 			log.info("overwrite answer(internet)");
-			answer.setAnswer(as.getAnswer());
+			answer.setAnswer(as);
 			answer.setLevel(this.level);
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wanda.chatbot.pojo.Answer;
+import com.wanda.chatbot.pojo.ExtraInformation;
 import com.wanda.qa.datasource.BaiduDataSource;
 import com.wanda.qa.datasource.DataSource;
 import com.wanda.qa.files.FilesConfig;
@@ -33,7 +34,7 @@ public class InternetProcess implements ProcessInterface{
 		Question qa = questionAnsweringSystem.answerQuestion(question);
 		if (qa.getQuestionType() != QuestionType.NULL)
 	        for(CandidateAnswer canswer :  qa.getAllCandidateAnswer()){
-	        	return new Answer(canswer.getAnswer() , InternetProcess.class.getSimpleName());
+	        	return new Answer(canswer.getAnswer() , new ExtraInformation(InternetProcess.class.getSimpleName()));
 	        }
         return null;
 	}

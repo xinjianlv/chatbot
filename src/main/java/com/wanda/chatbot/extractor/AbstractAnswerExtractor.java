@@ -1,6 +1,7 @@
 package com.wanda.chatbot.extractor;
 
 import com.wanda.chatbot.pojo.Answer;
+
 /**
  * @description 答案提取器
  * @author nocml

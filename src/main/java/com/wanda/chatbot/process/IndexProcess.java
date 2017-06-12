@@ -1,12 +1,13 @@
 package com.wanda.chatbot.process;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.wanda.chatbot.filter.AbstractFilter;
+import com.wanda.chatbot.filter.ChainFilter;
+import com.wanda.chatbot.pojo.Answer;
+import com.wanda.chatbot.pojo.AnswerFilter;
+import com.wanda.chatbot.pojo.ExtraInformation;
+import com.wanda.chatbot.utils.StringTool;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -18,44 +19,35 @@ import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser.Operator;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.LeafCollector;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Scorer;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TopDocsCollector;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.PriorityQueue;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.wanda.chatbot.filter.AbstractFilter;
-import com.wanda.chatbot.filter.ChainFilter;
-import com.wanda.chatbot.pojo.Answer;
-import com.wanda.chatbot.pojo.AnswerFilter;
-import com.wanda.chatbot.utils.StringTool;
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
-public class IndexProcess implements ProcessInterface{
+public class IndexProcess implements ProcessInterface {
 	private Logger log = Logger.getLogger(IndexProcess.class);
 	private static final int MAX_RESULT = 100;
 	private static final int MAX_RESULT_SEARCH = 100;
 	private static IndexSearcher indexSearcher = null;
 	private static AbstractFilter chainFilter = null;
-	private static Word2VecProcess word2vec = null;
 	public IndexProcess() {
 		IndexReader reader = null;
 		try {
 			reader = DirectoryReader.open(FSDirectory.open(Paths.get("./index", new String[0])));
 			indexSearcher = new IndexSearcher(reader);
 			chainFilter = ChainFilter.getChainOfAnswerFilter();
-			word2vec = new Word2VecProcess();
 		} catch (Exception e) {
 			log.error(" ", e);
 		}
 	}
-	public 	Answer getAnswer(String q){
+	public Answer getAnswer(String q){
 		String bestAnswer = "呵呵";
 		String wvAnswer = "呵呵";
 		try {
@@ -144,8 +136,6 @@ public class IndexProcess implements ProcessInterface{
 				}
 
 			}
-			wvAnswer = word2vec.getSimilarityAnswer(q, answerList);
-			log.info("word2vec:" + wvAnswer);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,7 +143,7 @@ public class IndexProcess implements ProcessInterface{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new Answer(bestAnswer + "_" + wvAnswer , IndexProcess.class.getSimpleName());
+		return new Answer(bestAnswer , new ExtraInformation(IndexProcess.class.getSimpleName() , 200));
 	}
 	public String filterStopWords(String question) {
 		String re = "";

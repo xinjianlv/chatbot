@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.wanda.chatbot.pojo.ExtraInformation;
 import com.wanda.qa.model.Question;
 import com.wanda.qa.model.QuestionType;
 import com.wanda.qa.questiontypeanalysis.QuestionClassifier;
@@ -143,7 +144,7 @@ public class DateAskProcess implements ProcessInterface {
 	String pattern = "%s是%s日";
 	@Override
 	public Answer getAnswer(String question) {
-		Answer answer = null;
+		Answer answer = new Answer();
 	    if(isDateAskQuestion(question)){
 	    	log.info("question is date ask.");
 			recognition(question);
@@ -157,6 +158,7 @@ public class DateAskProcess implements ProcessInterface {
 			}
 		}else
 			log.info("question is not date ask.");
+		answer.setExtInfo(new ExtraInformation(DateAskProcess.class.getSimpleName()));
 		return answer;
 	}
 }

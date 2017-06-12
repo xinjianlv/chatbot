@@ -23,5 +23,16 @@ public class PatternAnswerExtractor extends AbstractAnswerExtractor {
 			answer.setLevel(this.level);
 		}
 	}
-
+	public static  void main(String [] args){
+		String input = "你好";
+		Answer answer = new Answer();
+		PatternAnswerExtractor pae = new PatternAnswerExtractor(1);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		pae.findAnswer(input , answer);
+		System.out.println(answer);
+	}
 }

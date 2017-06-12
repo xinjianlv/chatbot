@@ -1,5 +1,7 @@
 package com.wanda.chatbot.extractor;
 
+import com.wanda.chatbot.pojo.Answer;
+
 public class ChainAnswerProcess {
 	public static AbstractAnswerExtractor getChainOfProcess() {
 		
@@ -17,5 +19,12 @@ public class ChainAnswerProcess {
 		internet.setNextAnswerExtractor(index);
 
 		return pattern;
+	}
+	public static void main(String [] args){
+		String input = "你好";
+		Answer answer = new Answer();
+		AbstractAnswerExtractor ae = getChainOfProcess();
+		ae.findAnswer(input , answer);
+		System.out.println(answer);
 	}
 }

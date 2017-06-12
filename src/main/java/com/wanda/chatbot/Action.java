@@ -59,8 +59,7 @@ public class Action {
         JSONObject ret = new JSONObject();
         ret.put("tip", bestAnswer.getAnswer());
         ret.put("status" , bestAnswer.getExtInfo().getPatternFlag());
-        log.info("answer info : " + ret.get("tip"));
-        log.info("ext_iofo : " + ret.get("status"));
+        log.info("best answer: " + bestAnswer);
         buf = Unpooled.copiedBuffer(ret.toJSONString().getBytes());
 		res.setContent(buf);
 	}

@@ -27,7 +27,13 @@ public class ExtraInformation {
         this.patternFlag = patternFlag;
     }
 
-
+    @Override
+    public String toString() {
+        return "ExtraInformation{" +
+                "classOrigin='" + classOrigin + '\'' +
+                ", patternFlag=" + patternFlag +
+                '}';
+    }
 
     public String getClassOrigin() {
         return classOrigin;

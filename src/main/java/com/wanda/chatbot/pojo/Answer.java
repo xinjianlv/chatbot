@@ -17,6 +17,7 @@ public class Answer {
 		if(answer != null) {
 			this.answer = answer.getAnswer();
 			this.extInfo.setExtraInformation(answer.getExtInfo());
+			this.level = answer.getLevel();
 			return true;
 		}
 		return false;

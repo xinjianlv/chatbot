@@ -89,7 +89,8 @@ public class PatternProcess extends TimerTask implements ProcessInterface {
 	
 	public static void main(String[] args) {
 		PatternProcess pattern = new PatternProcess();
-		Answer an = pattern.getAnswer("test");
-		System.out.println(an.getAnswer());
+		pattern.loadPattern();
+		Answer an = pattern.getAnswer("你好");
+		System.out.println(an);
 	}
 }

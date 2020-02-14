@@ -22,7 +22,7 @@
 		<maven-jetty-plugin.version>6.1.26</maven-jetty-plugin.version>
 		<sonar-maven3-plugin.version>3.5</sonar-maven3-plugin.version>
 
-		<lucene.version>5.2.1</lucene.version>
+		<lucene.version>8.2.0</lucene.version>
 		<junit.version>3.8.1</junit.version>
 		<jsoup.version>1.7.2</jsoup.version>
 		<slf4j-api.version>1.6.4</slf4j-api.version>
